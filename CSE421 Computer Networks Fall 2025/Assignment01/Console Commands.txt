@@ -1,0 +1,89 @@
+R1 commands:
+
+en
+erase startup-config
+reload
+
+en
+conf t
+hostname R1
+
+no ip domain-lookup
+enable secret class
+
+banner motd &
+********************************
+!!!AUTHORIZED ACCESS ONLY!!!
+********************************
+&
+
+line console 0
+password cisco
+login
+exit
+
+line vty 0 4
+password cisco
+login
+exit
+
+int f0/0
+ip address 192.168.1.1 255.255.255.0
+no shut
+
+int s0/0/0
+ip address 192.168.2.1 255.255.255.0
+clock rate 64000
+no shut
+exit
+
+end
+copy run start
+
+
+R2 commands:
+
+en
+erase startup-config
+reload
+
+en
+conf t
+hostname R1
+
+no ip domain-lookup
+enable secret class
+
+banner motd &
+********************************
+!!!AUTHORIZED ACCESS ONLY!!!
+********************************
+&
+
+line console 0
+password cisco
+login
+exit
+
+line vty 0 4
+password cisco
+login
+exit
+
+int f0/0
+ip address 192.168.3.1 255.255.255.0
+no shut
+
+int s0/0/0
+ip address 192.168.2.2 255.255.255.0
+no shut
+exit
+
+end
+copy run start
+
+
+Afterwards, for both routers:
+
+show ip route
+show ip interface brief
